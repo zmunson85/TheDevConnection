@@ -8,6 +8,9 @@ const connectDB = require('./config/db');
 
 connectDB();
 
+
+app.use(express.json({ extended: false }));
+
 app.get('/', (req, res) => res.send('API IS UP'));
 //define the paths for each component
 app.use('/api/users', require('./routes/api/users'));
