@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const normalize = require('normalize-url');
 const User = require('../../models/User');
+const config = require('config');
 
 /* @route POST api/users */
 /* @desc Register a new user */
@@ -28,9 +30,7 @@ router.post('/', [
         try {
             let user = await User.findOne({ email });
             if (user) {
-                return res
-                    .status(400)
-                    .json({ errors: [{ msg: "User Already Exists." }] })
+                return res.status(400).json({ errors: [{ msg: "User Already Exists." }] })
             }
             //get users gravatar based on their email, optional for each user
             const avatar = normalize(gravatar.url(email, {
@@ -52,18 +52,26 @@ router.post('/', [
             //return/save user to DB
             await user.save();
 
-            //Return jsonWebtoken
-            res.send('New User Registered');
+            //jwt.io for documentation
+            const payload = {
+                user: {
+                    id: user.id
+                }
+            }
+            //CALL BACK error or TOKEN
+            jwt.sign(payload,
+                config.get('jwtSecret'),
+                {
+                    expiresIn: 360000
+                },
+                (err, token) => {
+                    if (err) throw err;
+                    res.json({ token });
+                })
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server Error');
         }
-
-
-
-
-
-
     });
 
 
