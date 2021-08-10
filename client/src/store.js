@@ -1,6 +1,10 @@
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+
+//middleware
 import thunk from 'redux-thunk';
+
+//root reducer
 import rootReducer from './reducers';
 import setAuthToken from './utils/setAuthToken';
 
@@ -8,6 +12,8 @@ const initialState = {};
 
 const middleware = [thunk];
 
+
+//instantiate a variable to utilize middleware 
 const store = createStore(
     rootReducer,
     initialState,

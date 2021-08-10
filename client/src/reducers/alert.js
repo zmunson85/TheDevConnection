@@ -1,3 +1,5 @@
+/* Every reducer needs some initial state, so we'll an action type and data. Then, we can write an outline for the logic inside the reducer function: */
+
 import { SET_ALERT, REMOVE_ALERT } from '../actions/types';
 
 const initialState = [];

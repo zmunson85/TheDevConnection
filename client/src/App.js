@@ -5,7 +5,8 @@ import Landing from './components/layout/Landing';
 import Routes from './components/routing/Routes';
 import { LOGOUT } from './actions/types';
 
-// Redux
+// Redux connected to react-Wrap the app just like a router. Store is passed in via Provider
+
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
